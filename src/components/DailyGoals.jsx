@@ -107,8 +107,9 @@ function DailyGoals({ onClose }) {
           <p>Only once in a month you can fill it!</p>
         </div>
       </form>
+      {alert("It is compulsory to fill this form")}
     </div>
-    {alert("It is compulsory to fill this form")}
+    
   );
 }
 
