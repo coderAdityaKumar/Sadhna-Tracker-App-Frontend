@@ -30,7 +30,9 @@ const Login = () => {
         setPassword("");
         localStorage.setItem("jwt", response.data.data.token);
         toast.success("Login successful!");
-        navigateTo("/");
+        window.location.href = "https://sadhna-tracker-app-frontend.vercel.app";
+
+        // navigateTo("/");
         
       } else {
         console.log(response.data);
