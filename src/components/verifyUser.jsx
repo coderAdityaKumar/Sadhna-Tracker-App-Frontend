@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom"; // if you are using React Router
 
 const VerifyUser = () => {
+  const baseURL=process.env.BACKEND_URL
+
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState("loading"); // loading, success, error
 
@@ -14,7 +16,7 @@ const VerifyUser = () => {
       }
       
       try {
-        const response = await fetch(`http://localhost:3000/auth/verify-user?token=${token}`);
+        const response = await fetch(`${baseURL}/auth/verify-user?token=${token}`);
         const data = await response.json();
 
         if (response.ok) {

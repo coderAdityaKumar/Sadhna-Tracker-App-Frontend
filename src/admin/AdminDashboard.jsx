@@ -5,13 +5,15 @@ import StudentSadhanaDetails from "./StudentSadhanaDetails.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AdminDashboard() {
+  const baseURL=process.env.BACKEND_URL
+
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const fetchStudents = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/user/getAllUsers", {
+      const { data } = await axios.get(`${baseURL}/user/getAllUsers`, {
         withCredentials: true,
         headers: {
           Authorization: `${localStorage.getItem("jwt")}`,

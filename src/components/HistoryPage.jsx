@@ -4,6 +4,7 @@ import axios from "axios";
 import SadhanaForm from "../components/SadhanaForm";
 
 const SadhanaHistory = () => {
+  const baseURL=process.env.BACKEND_URL
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [openMonth, setOpenMonth] = useState(null);
@@ -26,7 +27,7 @@ const SadhanaHistory = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:3000/sadhna/get-sadhna",
+          `${baseURL}/sadhna/get-sadhna`,
           {
             withCredentials: true,
             headers: {

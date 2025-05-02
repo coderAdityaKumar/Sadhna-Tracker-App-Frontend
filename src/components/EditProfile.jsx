@@ -10,6 +10,7 @@ function EditProfile() {
   const [email, setEmail] = useState("");
   const [hostel, setHostel] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const baseURL=process.env.BACKEND_URL
 
   const navigateTo = useNavigate();
 
@@ -18,7 +19,7 @@ function EditProfile() {
     setIsLoading(true);
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/user/update-user`,
+        `${baseURL}/user/update-user`,
         {
           firstname,
           lastname,

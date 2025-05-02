@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 
 const MonthlySummaryCard = () => {
+  const baseURL=process.env.BACKEND_URL
   const [isExpanded, setIsExpanded] = useState(false);
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ const MonthlySummaryCard = () => {
     const fetchMonthlySummary = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/sadhna/get-sadhna",
+          `${baseURL}/sadhna/get-sadhna`,
           {
             withCredentials: true,
             headers: {

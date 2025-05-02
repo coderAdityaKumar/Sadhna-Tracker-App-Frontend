@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // For tick and cross icons
 
 const Signup = () => {
+  const baseURL=process.env.BACKEND_URL
+
   const [username, setUsername] = useState("");
   const [isUsernameValid, setIsUsernameValid] = useState(null);
   const [usernameError, setUsernameError] = useState("");
@@ -84,7 +86,7 @@ const Signup = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/auth/register-user",
+        `${baseURL}/auth/register-user`,
         {
           username,
           firstName,

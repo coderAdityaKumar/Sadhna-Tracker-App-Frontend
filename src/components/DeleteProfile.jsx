@@ -14,9 +14,10 @@ function DeleteProfile() {
   const handleDelete = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    const baseURL=process.env.BACKEND_URL
     try {
       const { data } = await axios.delete(
-        `http://localhost:3000/user/delete-user`,
+        `${baseURL}/user/delete-user`,
         {
           withCredentials: true,
           headers: { 

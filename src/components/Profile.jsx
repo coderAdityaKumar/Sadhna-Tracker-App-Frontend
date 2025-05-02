@@ -5,6 +5,7 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ProfilePage = () => {
+  const baseURL=process.env.BACKEND_URL
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showDeleteProfile, setShowDeleteProfile] = useState(false);
   const [firstname, setFirstName] = useState("");
@@ -19,7 +20,7 @@ const ProfilePage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:3000/user/get-user",
+          `${baseURL}/user/get-user`,
           {
             withCredentials: true,
             headers: {

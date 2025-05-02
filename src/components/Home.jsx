@@ -10,6 +10,9 @@ import DailyGoals from "./DailyGoals";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function HomePage() {
+
+
+const baseURL=process.env.BACKEND_URL
   const navigate = useNavigate();
 
   const [showSadhanaForm, setShowSadhanaForm] = useState(false);
@@ -23,7 +26,7 @@ export default function HomePage() {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/user/get-user",
+          `${baseURL}/user/get-user`,
           {
             withCredentials: true,
             headers: {
@@ -48,7 +51,7 @@ export default function HomePage() {
     const checkDailyGoals = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/sadhna/check-daily-goals",
+          `${baseURL}/sadhna/check-daily-goals`,
           {
             withCredentials: true,
             headers: {

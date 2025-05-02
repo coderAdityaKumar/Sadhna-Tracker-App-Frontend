@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Login = () => {
+  const baseURL=process.env.BACKEND_URL
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigateTo = useNavigate();
@@ -14,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/login-user",
+        `${baseURL}/auth/login-user`,
         { email, password },
         {
           withCredentials: true,

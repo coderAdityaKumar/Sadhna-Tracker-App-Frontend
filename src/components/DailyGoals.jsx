@@ -7,13 +7,14 @@ function DailyGoals({ onClose }) {
   const [attendMangalaAarti, setAttendMangalaAarti] = useState("");
   const [watchLectureMinutes, setWatchLectureMinutes] = useState("");
   const [readBookMinutes, setReadBookMinutes] = useState("");
+  const baseURL=process.env.BACKEND_URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/sadhna/set-daily-goals",
+        `${baseURL}/sadhna/set-daily-goals`,
         {
           roundsOfChanting,
           attendMangalaAarti,
