@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom"; // if you are using React Router
 
 const VerifyUser = () => {
-  const baseURL=process.env.BACKEND_URL
+  const baseURL=import.meta.env.BACKEND_URL
 
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState("loading"); // loading, success, error

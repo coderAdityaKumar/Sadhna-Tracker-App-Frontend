@@ -5,7 +5,7 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ProfilePage = () => {
-  const baseURL=process.env.BACKEND_URL
+  const baseURL=import.meta.env.BACKEND_URL
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showDeleteProfile, setShowDeleteProfile] = useState(false);
   const [firstname, setFirstName] = useState("");

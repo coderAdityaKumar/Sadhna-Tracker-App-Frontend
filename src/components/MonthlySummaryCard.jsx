@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 
 const MonthlySummaryCard = () => {
-  const baseURL=process.env.BACKEND_URL
+  const baseURL=import.meta.env.BACKEND_URL
   const [isExpanded, setIsExpanded] = useState(false);
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(true);

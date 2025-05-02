@@ -10,7 +10,7 @@ function EditProfile() {
   const [email, setEmail] = useState("");
   const [hostel, setHostel] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const baseURL=process.env.BACKEND_URL
+  const baseURL=import.meta.env.BACKEND_URL
 
   const navigateTo = useNavigate();
 

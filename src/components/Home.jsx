@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function HomePage() {
 
 
-const baseURL=process.env.BACKEND_URL
+const baseURL= import.meta.env.BACKEND_URL
   const navigate = useNavigate();
 
   const [showSadhanaForm, setShowSadhanaForm] = useState(false);
