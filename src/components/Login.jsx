@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Login = () => {
-  const baseURL=import.meta.env.BACKEND_URL
+  const baseURL=import.meta.env.VITE_BACKEND_URL;
+  console.log("Base URL is:", baseURL);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigateTo = useNavigate();
@@ -14,6 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log("Base URL is:", baseURL);
       const response = await axios.post(
         `${baseURL}/auth/login-user`,
         { email, password },

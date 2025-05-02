@@ -7,7 +7,7 @@ function DailyGoals({ onClose }) {
   const [attendMangalaAarti, setAttendMangalaAarti] = useState("");
   const [watchLectureMinutes, setWatchLectureMinutes] = useState("");
   const [readBookMinutes, setReadBookMinutes] = useState("");
-  const baseURL=import.meta.env.BACKEND_URL
+  const baseURL=import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

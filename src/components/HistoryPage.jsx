@@ -4,7 +4,7 @@ import axios from "axios";
 import SadhanaForm from "../components/SadhanaForm";
 
 const SadhanaHistory = () => {
-  const baseURL=import.meta.env.BACKEND_URL
+  const baseURL=import.meta.env.VITE_BACKEND_URL
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [openMonth, setOpenMonth] = useState(null);

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // For tick and cross icons
 
 const Signup = () => {
-  const baseURL=import.meta.env.BACKEND_URL
+  const baseURL=import.meta.env.VITE_BACKEND_URL
 
   const [username, setUsername] = useState("");
   const [isUsernameValid, setIsUsernameValid] = useState(null);

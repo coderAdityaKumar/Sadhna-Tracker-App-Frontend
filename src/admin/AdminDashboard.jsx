@@ -5,7 +5,7 @@ import StudentSadhanaDetails from "./StudentSadhanaDetails.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AdminDashboard() {
-  const baseURL=import.meta.env.BACKEND_URL
+  const baseURL=import.meta.env.VITE_BACKEND_URL
 
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);

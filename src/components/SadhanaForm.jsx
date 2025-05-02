@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const SadhanaForm = ({ onClose, selectedDate }) => {
-  const baseURL=import.meta.env.BACKEND_URL
+  const baseURL=import.meta.env.VITE_BACKEND_URL
 
   const formattedDate = selectedDate || new Date().toISOString().split("T")[0];
 
