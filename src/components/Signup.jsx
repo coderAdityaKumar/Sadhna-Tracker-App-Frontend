@@ -132,7 +132,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen flex flex-col md:flex-row font-mono">
       {/* Left Side */}
       <div
         className="hidden md:block w-1/2 h-screen"
@@ -146,8 +146,8 @@ const Signup = () => {
 
       {/* Right Side */}
       <div className="w-full md:w-1/2 h-screen flex items-center justify-center bg-white relative">
-        <div className="z-10 bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 font-Quintessential">
-          <h2 className="text-4xl font-bold text-center text-purple-800 drop-shadow-md">
+        <div className="z-10 bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 font-mono">
+          <h2 className="text-4xl font-bold text-center text-purple-800 drop-shadow-md font-Quintessential">
             Hare Krishna!
           </h2>
           <p className="text-center text-purple-700 italic mb-6 text-2xl">
