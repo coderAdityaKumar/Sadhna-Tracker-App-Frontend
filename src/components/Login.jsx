@@ -46,14 +46,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-[Quintessential] bg-white overflow-hidden">
+    <div className="min-h-screen flex flex-col md:flex-row font-mono bg-white overflow-hidden">
       {/* Left Side - Krishna Image */}
       <motion.div
         initial={{ y: +20 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 50 }}
         className="hidden md:block w-1/2 h-screen bg-no-repeat bg-center bg-contain"
-        style={{ backgroundImage: `url('/folklife.jpg')` }}
+        style={{ backgroundImage: `url('/folklogo.svg')` }}
       ></motion.div>
 
       {/* Right Side - Login Form */}
@@ -67,7 +67,7 @@ const Login = () => {
             transition={{ type: "spring", stiffness: 50 }}
             className="text-5xl text-center text-purple-800 drop-shadow-lg font-bold mb-2"
           >
-            Hare Krishna 🙏
+            Hare Krishna 
           </motion.h2>
           <motion.p
             initial={{ y: +20 }}
