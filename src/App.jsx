@@ -9,6 +9,8 @@ import MonthlySummaryCard from './components/MonthlySummaryCard'
 import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
 import VerifyUser from './components/verifyUser'
+import ForgotPassword from './components/ForgotPassword'
+import ResetPassword from './components/ResetPassword'
 import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         <Route path='/profile' element={<ProfilePage/>}/>
         <Route path='/dashboard' element={<MonthlySummaryCard/>}/>
         <Route path='/verify-user' element={<VerifyUser/>}/>
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
+        <Route path='/reset-password/:token' element={<ResetPassword/>}/>
         <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
       </Routes>
       <Toaster />

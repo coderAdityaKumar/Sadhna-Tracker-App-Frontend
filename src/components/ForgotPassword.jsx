@@ -9,12 +9,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 
-const login = () => {
+const ForgotPassword = () => {
   const baseURL = import.meta.env.VITE_BACKEND_URL;
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
   });
 
   const handleChange = (e) => {
@@ -25,29 +24,26 @@ const login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
-      const { email, password } = formData;
+      const { email } = formData;
       const { data } = await axios.post(
-        `${baseURL}/auth/login-user`,
-        {
-          email,
-          password,
-        },
+        `${baseURL}/auth/forgot-password`,
+        { email },
         {
           withCredentials: true,
-          headers: { "Content-Type": "Application/json" },
+          headers: { "Content-Type": "application/json" },
         }
       );
       if (data.success) {
-        localStorage.setItem("jwt", data.data.token);
-        toast.success("Login successfully!");
-        window.location.href = "https://sadhna-tracker-app-frontend.vercel.app";
-      } else {
-        toast.error(data.message || "Login failed");
+        toast.success("Reset link sent to your email!");
+      }else{
+        toast.error(data?.message||"User not found");
       }
     } catch (error) {
-      toast.error(error.data?.message || "Login failed.Please try again");
+      toast.error(
+        error.response?.data?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -112,39 +108,7 @@ const login = () => {
             </div>
           </div>
 
-          {/* Password */}
-          <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <a
-                href="/forgot-password"
-                className="text-sm font-medium text-purple-600 hover:text-purple-500"
-              >
-                Forgot password?
-              </a>
-            </div>
-            <div className="relative mt-1 rounded-md shadow-sm">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <LockClosedIcon className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                className={`block w-full pl-10 pr-3 py-3 border border-gray-300
-                 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500`}
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+          
 
           {/* Submit Button */}
           <button
@@ -182,7 +146,7 @@ const login = () => {
             ) : (
               <>
                 <span className="group-hover:scale-105 transition-transform">
-                  Sign In
+                  Send
                 </span>
                 <ArrowRightIcon className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </>
@@ -211,4 +175,4 @@ const login = () => {
     </div>
   );
 };
-export default login;
+export default ForgotPassword;
