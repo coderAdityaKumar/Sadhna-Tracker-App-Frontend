@@ -1,90 +1,40 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import {
+  UserIcon,
+  EnvelopeIcon,
+  LockClosedIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa"; // For tick and cross icons
 
 const Signup = () => {
-  const baseURL=import.meta.env.VITE_BACKEND_URL
-
-  const [username, setUsername] = useState("");
-  const [isUsernameValid, setIsUsernameValid] = useState(null);
-  const [usernameError, setUsernameError] = useState("");
-
-  const [password, setPassword] = useState("");
-  const [isPasswordValid, setIsPasswordValid] = useState(null);
-  const [passwordError, setPasswordError] = useState("");
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [hostel, setHostel] = useState("");
-
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
   const navigateTo = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    hostel: "",
+  });
 
-  // Username validation function
-  const validateUsername = (value) => {
-    const regex = /^[A-Za-z0-9_]+$/; // only letters, numbers, underscores
-    if (value.length < 3 || value.length > 30) {
-      setUsernameError("Username must be between 3 and 30 characters.");
-      return false;
-    } else if (!regex.test(value)) {
-      setUsernameError(
-        "Username can only contain letters, numbers, and underscores."
-      );
-      return false;
-    } else {
-      setUsernameError("");
-      return true;
-    }
-  };
-
-  // Password validation function
-  const validatePassword = (value) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-    if (!regex.test(value)) {
-      setPasswordError(
-        "Password must be at least 6 characters long, contain uppercase, lowercase, number, and special character."
-      );
-      return false;
-    } else {
-      setPasswordError("");
-      return true;
-    }
-  };
-
-  const handleUsernameChange = (e) => {
-    const value = e.target.value;
-    setUsername(value);
-    if (value === "") {
-      setIsUsernameValid(null);
-    } else {
-      setIsUsernameValid(validateUsername(value));
-    }
-  };
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-    if (value === "") {
-      setIsPasswordValid(null);
-    } else {
-      setIsPasswordValid(validatePassword(value));
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    const usernameOkay = validateUsername(username);
-    const passwordOkay = validatePassword(password);
-
-    if (!usernameOkay || !passwordOkay) {
-      toast.error("Please fix validation errors before submitting.");
-      return;
-    }
-
+    setLoading(true);
     try {
+        const {username,firstName,lastName,email,hostel,password}=formData
       const { data } = await axios.post(
         `${baseURL}/auth/register-user`,
         {
@@ -96,187 +46,272 @@ const Signup = () => {
           hostel,
         },
         {
-          withCredentials: true,
+          withCredentials: true, // Include cookies
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", // Tell server it’s JSON
           },
         }
       );
-
-      console.log("Backend Response:", data);
-
-      // Here, CHECK if backend says success
       if (data.success) {
-        toast.success(data.message || "User registered successfully");
+        toast.success(data.message || "user registered successfully");
         navigateTo("/login");
-
-        // Reset form
-        setUsername("");
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-        setHostel("");
-        setIsUsernameValid(null);
-        setIsPasswordValid(null);
       } else {
-        // If backend sends success: false
         toast.error(data.message || "User registration failed");
       }
     } catch (error) {
+      console.log(error);
       console.error("Error Response:", error.response);
       const errorMessage =
-        error.response?.data?.message || "User registration failed";
+        error.response?.data?.message || "user registration failed";
       toast.error(errorMessage);
+    }finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-mono">
-      {/* Left Side */}
-      <div
-        className="hidden md:block w-1/2 h-screen"
-        style={{
-          backgroundImage: `url('/folklife.jpg')`,
-          backgroundSize: "contain",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      ></div>
-
-      {/* Right Side */}
-      <div className="w-full md:w-1/2 h-screen flex items-center justify-center bg-white relative">
-        <div className="z-10 bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 font-mono">
-          <h2 className="text-4xl font-bold text-center text-purple-800 drop-shadow-md font-Quintessential">
-            Hare Krishna!
-          </h2>
-          <p className="text-center text-purple-700 italic mb-6 text-2xl">
-            Join the devotional family
-          </p>
-          <form className="space-y-4" onSubmit={handleRegister}>
-            {/* Username */}
-            <div>
-              <label className="text-md text-purple-800">Username</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="username"
-                  value={username}
-                  onChange={handleUsernameChange}
-                  placeholder="Enter your username"
-                  className="w-full mt-1 px-4 py-2 pr-10 rounded-xl bg-white/80 text-purple-900 placeholder-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400"
-                />
-                {isUsernameValid !== null && (
-                  <span className="absolute right-3 top-3">
-                    {isUsernameValid ? (
-                      <FaCheckCircle className="text-green-500" size={20} />
-                    ) : (
-                      <FaTimesCircle className="text-red-500" size={20} />
-                    )}
-                  </span>
-                )}
-              </div>
-              {usernameError && (
-                <p className="text-red-500 text-sm mt-1">{usernameError}</p>
-              )}
-            </div>
-
-            {/* Firstname and Lastname */}
-            <div className="flex gap-2">
-              <div className="w-1/2">
-                <label className="text-md text-purple-800">First Name</label>
-                <input
-                  type="text"
-                  name="firstname"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Enter your first name"
-                  className="w-full mt-1 px-4 py-2 rounded-xl bg-white/80 text-purple-900 placeholder-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400"
-                />
-              </div>
-              <div className="w-1/2">
-                <label className="text-md text-purple-800">Last Name</label>
-                <input
-                  type="text"
-                  name="lastname"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Enter your last name"
-                  className="w-full mt-1 px-4 py-2 rounded-xl bg-white/80 text-purple-900 placeholder-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400"
-                />
-              </div>
-            </div>
-
-            {/* Hostel Selector */}
-            <div className="flex flex-col space-y-2">
-              <h3 className="text-purple-800">Select your Hostel</h3>
-              <select
-                value={hostel}
-                onChange={(e) => setHostel(e.target.value)}
-                className="font-mono w-full focus:outline-none border border-purple-400 p-2 rounded-xl"
-              >
-                <option value="">-- Choose an option --</option>
-                <option value="Chaitanya Niwas">Chaitanya Niwas</option>
-                <option value="Nityananda Niwas">Nityananda Niwas</option>
-                <option value="Govinda Niwas">Govinda Niwas</option>
-              </select>
-            </div>
-
-            {/* Email and Password */}
-            <div>
-              <label className="text-md text-purple-800">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full mt-1 px-4 py-2 rounded-xl bg-white/80 text-purple-900 placeholder-purple-500 focus:outline-none focus:ring-2 focus:ring-pink-400"
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header with Logo */}
+        <div className="text-center mb-8">
+          {/* Logo Container with Sacred Geometry */}
+          <div className=" mx-auto mb-4">
+            <div className=" h-24 w-24 mx-auto flex items-center justify-center">
+              {/* Replace this div with your actual logo */}
+              <img
+                src="/loginfolklogo.svg"
+                alt="Handigram Folk Logo"
+                className="h-28 w-28 object-cover"
               />
             </div>
+          </div>
+
+          <h1 className="text-3xl font-bold text-purple-800 mb-1 font-serif">
+            Nandgram Folk
+          </h1>
+          <h2 className="text-xl text-purple-600 mb-2 font-serif">
+            Hare Krishna!
+          </h2>
+          <p className="text-gray-600 italic">Join the devotional family</p>
+        </div>
+
+        {/* Form Container */}
+        <form action="" onSubmit={handleRegister}>
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-8 space-y-6 border border-purple-100 relative">
+            {/* Sacred Border Decoration */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400"></div>
+
+            {/* Username */}
+            <div className="space-y-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Username
+              </label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <UserIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  required
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Enter your username"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* Name Fields */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  required
+                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Enter your first name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="space-y-1">
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Enter your last name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* Hostel Select */}
+            <div className="space-y-1">
+              <label
+                htmlFor="hostel"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Select your Hostel
+              </label>
+              <div className="relative mt-1">
+                <select
+                  id="hostel"
+                  name="hostel"
+                  required
+                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 pr-10 bg-white"
+                  value={formData.hostel}
+                  onChange={handleChange}
+                >
+                  <option value="">-- Choose an option --</option>
+                  <option value="Chaitanya Niwas">Chaitanya Niwas</option>
+                  <option value="Nityananda Niwas">Nityananda Niwas</option>
+                  <option value="Govinda Niwas">Govinda Niwas</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <ChevronDownIcon className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
+            </div>
+
+            {/* Email */}
+            <div className="space-y-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <EnvelopeIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
             {/* Password */}
-            <div>
-              <label className="text-md text-purple-800">Password</label>
-              <div className="relative">
+            <div className="space-y-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                </div>
                 <input
                   type="password"
+                  id="password"
                   name="password"
-                  value={password}
-                  onChange={handlePasswordChange}
+                  required
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                   placeholder="Enter your password"
-                  className="w-full mt-1 px-4 py-2 pr-10 rounded-xl bg-white/80 text-purple-900 placeholder-purple-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
-                {isPasswordValid !== null && (
-                  <span className="absolute right-3 top-3">
-                    {isPasswordValid ? (
-                      <FaCheckCircle className="text-green-500" size={20} />
-                    ) : (
-                      <FaTimesCircle className="text-red-500" size={20} />
-                    )}
-                  </span>
-                )}
               </div>
-              {passwordError && (
-                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
-              )}
             </div>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center">
+                <span className="px-2 bg-white text-sm text-gray-500 font-serif">
+                  Begin Bhakti
+                </span>
+              </div>
+            </div>
+
+            {/* Submit Button */}
             <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-semibold py-2 mt-4 rounded-xl transition duration-300 shadow-lg"
-            >
-              Begin Bhakti
-            </button>
-          </form>
-          <p className="text-center text-sm text-purple-800 mt-4">
-            Already registered?{" "}
-            <span className="underline hover:text-purple-900 cursor-pointer">
-              <a href="/login">Log in</a>
-            </span>
-          </p>
-        </div>
+            type="submit"
+            disabled={loading}
+            className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white 
+    ${
+      loading
+        ? "bg-purple-400 cursor-not-allowed"
+        : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+    }
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 group`}
+          >
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8z"
+                />
+              </svg>
+            ) : (
+              <>
+                <span className="group-hover:scale-105 transition-transform">
+                  Create Account
+                </span>
+                
+              </>
+            )}
+          </button>
+
+            {/* Login Link */}
+            <div className="text-center text-sm text-gray-600">
+              Already registered?{" "}
+              <a
+                href="/login"
+                className="font-medium text-purple-600 hover:text-purple-500 hover:underline"
+              >
+                Log in
+              </a>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
-
 export default Signup;

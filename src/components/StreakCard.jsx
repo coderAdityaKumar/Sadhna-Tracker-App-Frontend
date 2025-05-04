@@ -1,8 +1,10 @@
 import React, { useMemo } from "react";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import { FiClock } from "react-icons/fi";
 
 const StreakCard = ({ sadhna }) => {
+  console.log(sadhna);
   const streak = useMemo(() => {
     if (!sadhna || sadhna.length === 0) return 0;
 
@@ -27,20 +29,25 @@ const StreakCard = ({ sadhna }) => {
   }, [sadhna]);
 
   return (
-    <motion.div whileHover={{ scale: 1.02 }}>
-      <h2 className="text-xl font-semibold mb-2">🔥 Consistency</h2>
+    <div>
+      <h3 className="text-lg font-semibold mb-3 flex items-center">
+        <FiClock className="mr-2 text-purple-600" /> Consistency
+      </h3>
+      <div className="flex items-center">
+      <div className="text-4xl font-bold text-purple-600 mr-4">{streak}</div>
       {streak > 30 ? (
-        <p className="font-mono text-green-700">
-          🚀 {streak}-day streak! Incredible dedication!
+        <p className="font-medium">
+          🚀 Day streak! Incredible dedication!
         </p>
       ) : streak > 0 ? (
-        <p className="font-mono">{streak}-day streak! Hari bol! 🙌</p>
+        <p className="font-medium">Day streak! Hari bol! 🙌</p>
       ) : (
         <p className="font-mono text-gray-500">
           No current streak. Start today!
         </p>
       )}
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

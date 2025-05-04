@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
-import Signup from './components/Signup'
+import Signup1 from './components/Signup'
 import Login from "./components/Login"
 import Home from "./components/Home"
 import HistoryPage from './components/HistoryPage'
@@ -16,7 +16,7 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path='/signup' element={<Signup/>}/>
+        <Route path='/signup' element={<Signup1/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/admin/login' element={<AdminLogin/>}/>
         <Route path='/' element={token ? <Home/> : <Navigate to="/login" />} />
