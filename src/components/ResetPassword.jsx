@@ -32,7 +32,7 @@ const ResetPassword = () => {
 
     setLoading(true);
     try {
-        console.log(token)
+        // console.log(token)
       const { data } = await axios.post(
         `${baseURL}/auth/reset-password/${token}`,
         { password },
@@ -43,7 +43,7 @@ const ResetPassword = () => {
           withCredentials: true,
         }
       );
-      console.log(data)
+      // console.log(data)
 
       if (data.success) {
         toast.success("Password reset successful");

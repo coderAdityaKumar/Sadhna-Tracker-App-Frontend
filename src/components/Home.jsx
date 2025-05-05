@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import SadhanaForm from "../components/SadhanaForm";
 import MonthlySummaryCard from "./MonthlySummaryCard";
+import EkadashiLiveButton from "./EkadashiLiveButton";
 import StreakCard from "./StreakCard";
 import DailyGoals from "./DailyGoals";
 import {
@@ -15,6 +16,7 @@ import {
   FiClock,
   FiUser,
   FiLogOut,
+  FiMenu,
   FiCalendar,
   FiList,
 } from "react-icons/fi";
@@ -32,6 +34,7 @@ const HomePage = () => {
   const [role, setRole] = useState("");
   const [sadhna, setSadhna] = useState(null);
   const [showDailyGoalsForm, setShowDailyGoalsForm] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -92,12 +95,12 @@ const HomePage = () => {
   };
 
   // Mock tasks data
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "16 rounds of chanting", completed: true },
-    { id: 2, name: "Attend Mangala Aarti", completed: true },
-    { id: 3, name: "Watch 30 mins of lecture", completed: true },
-    { id: 4, name: "Read Srila Prabhupada's books", completed: false },
-  ]);
+  // const [tasks, setTasks] = useState([
+  //   { id: 1, name: "16 rounds of chanting", completed: true },
+  //   { id: 2, name: "Attend Mangala Aarti", completed: true },
+  //   { id: 3, name: "Watch 30 mins of lecture", completed: true },
+  //   { id: 4, name: "Read Srila Prabhupada's books", completed: false },
+  // ]);
 
   useEffect(() => {
     // Update time every minute
@@ -128,7 +131,11 @@ const HomePage = () => {
       >
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center">
-            <img src="homefolklogo.svg" alt="Nandgram folk" className="h-20 mr-3" />
+            <img
+              src="homefolklogo.svg"
+              alt="Nandgram folk"
+              className="h-20 mr-3"
+            />
             <div>
               <h1 className="text-xl md:text-2xl font-bold">
                 Hare Krishna, {firstName}
@@ -154,68 +161,103 @@ const HomePage = () => {
       </header>
 
       {/* Action Buttons */}
-      <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-        <a href="/history" className="w-full">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        {/* Mobile menu toggle (only shows on small screens) */}
+        <div className="sm:hidden flex justify-center mb-3">
           <button
-            className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
               darkMode
                 ? "bg-gray-700 hover:bg-gray-600 text-white"
                 : "bg-white hover:bg-gray-100 text-gray-800"
-            } shadow-sm`}
+            } shadow-sm transition-all duration-300`}
           >
-            <FiList className="text-purple-600" /> View History
+            <FiMenu
+              className={`transition-transform duration-300 ${
+                isMobileMenuOpen ? "rotate-90" : "rotate-0"
+              }`}
+            />
+            {isMobileMenuOpen ? "Close Menu" : "Open Menu"}
           </button>
-        </a>
+        </div>
 
-        <a href="/profile" className="w-full">
-          <button
-            className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              darkMode
-                ? "bg-gray-700 hover:bg-gray-600 text-white"
-                : "bg-white hover:bg-gray-100 text-gray-800"
-            } shadow-sm`}
+        {/* Collapsible menu items with animation */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? "max-h-96" : "max-h-0 sm:max-h-full"
+          }`}
+        >
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-3 gap-3  sm:pt-0 ${
+              isMobileMenuOpen
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-[-10px] sm:opacity-100 sm:translate-y-0"
+            } transition-all duration-300`}
           >
-            <FiUser className="text-purple-600" /> My Profile
-          </button>
-        </a>
+            <a href="/history" className="w-full">
+              <button
+                className={`w-full flex items-center justify-center gap-2 px-4 py-3  rounded-lg text-sm font-medium transition-colors ${
+                  darkMode
+                    ? "bg-gray-700 hover:bg-gray-600 text-white"
+                    : "bg-white hover:bg-gray-100 text-gray-800"
+                } shadow-sm`}
+              >
+                <FiList className="text-purple-600" /> View History
+              </button>
+            </a>
 
-        <button
-          onClick={handleLogout}
-          className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-            darkMode
-              ? "bg-gray-700 hover:bg-gray-600 text-white"
-              : "bg-white hover:bg-gray-100 text-gray-800"
-          } shadow-sm`}
-        >
-          <FiLogOut className="text-purple-600" /> Logout
-        </button>
+            <a href="/profile" className="w-full">
+              <button
+                className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  darkMode
+                    ? "bg-gray-700 hover:bg-gray-600 text-white"
+                    : "bg-white hover:bg-gray-100 text-gray-800"
+                } shadow-sm`}
+              >
+                <FiUser className="text-purple-600" /> My Profile
+              </button>
+            </a>
 
-        <button
-          onClick={() => setShowSadhanaForm(true)}
-          className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-            darkMode
-              ? "bg-purple-700 hover:bg-purple-600"
-              : "bg-purple-600 hover:bg-purple-700"
-          } text-white shadow-sm`}
-        >
-          <FiCalendar /> Fill Today's Sadhna
-        </button>
-
-        {role === "admin" && (
-          <a href="/admin/dashboard" className="w-full">
             <button
+              onClick={handleLogout}
               className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                 darkMode
-                  ? "bg-red-700 hover:bg-red-600"
-                  : "bg-red-600 hover:bg-red-700"
-              } text-white shadow-sm`}
+                  ? "bg-gray-700 hover:bg-gray-600 text-white"
+                  : "bg-white hover:bg-gray-100 text-gray-800"
+              } shadow-sm`}
             >
-              <MdAdminPanelSettings /> Admin Dashboard
+              <FiLogOut className="text-purple-600" /> Logout
             </button>
-          </a>
-        )}
-      </div>
+          </div>
+        </div>
+        {/* Always visible buttons (for all screen sizes) */}
+        <div className="flex flex-col gap-3 mt-3 mb-3 sm:mb-0 items-center justify-center">
+          <button
+            onClick={() => setShowSadhanaForm(true)}
+            className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+              darkMode
+                ? "bg-purple-700 hover:bg-purple-600"
+                : "bg-purple-600 hover:bg-purple-700"
+            } text-white shadow-sm`}
+          >
+            <FiCalendar /> Fill Today's Sadhna
+          </button>
 
+          {role === "admin" ||role==="superadmin" && (
+            <a href="/admin/dashboard" className="flex-1">
+              <button
+                className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  darkMode
+                    ? "bg-red-700 hover:bg-red-600"
+                    : "bg-red-600 hover:bg-red-700"
+                } text-white shadow-sm`}
+              >
+                <MdAdminPanelSettings /> Admin Dashboard
+              </button>
+            </a>
+          )}
+        </div>
+      </div>
       {/* Maha Mantra Banner */}
       <div
         className={`py-3 px-4 md:px-8 text-center ${
@@ -343,6 +385,7 @@ const HomePage = () => {
           </div>
         </section>
       </main>
+      <EkadashiLiveButton />
     </div>
   );
 };

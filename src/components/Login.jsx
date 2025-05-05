@@ -36,7 +36,7 @@ const login = () => {
         },
         {
           withCredentials: true,
-          headers: { "Content-Type": "Application/json" },
+          headers: { "Content-Type": "application/json" },
         }
       );
       if (data.success) {

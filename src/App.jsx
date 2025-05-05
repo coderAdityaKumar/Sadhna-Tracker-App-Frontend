@@ -8,6 +8,7 @@ import ProfilePage from './components/Profile'
 import MonthlySummaryCard from './components/MonthlySummaryCard'
 import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
+import EkadashiLiveScore from './components/EkadashiLiveScore'
 import VerifyUser from './components/verifyUser'
 import ForgotPassword from './components/ForgotPassword'
 import ResetPassword from './components/ResetPassword'
@@ -25,6 +26,7 @@ function App() {
         <Route path='/admin' element={<AdminDashboard/>}/>
         <Route path='/history' element={<HistoryPage/>}/>
         <Route path='/profile' element={<ProfilePage/>}/>
+        <Route path='/ekadashi-live' element={<EkadashiLiveScore/>}/>
         <Route path='/dashboard' element={<MonthlySummaryCard/>}/>
         <Route path='/verify-user' element={<VerifyUser/>}/>
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
