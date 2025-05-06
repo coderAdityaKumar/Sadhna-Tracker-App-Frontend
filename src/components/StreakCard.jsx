@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FiClock } from "react-icons/fi";
 
 const StreakCard = ({ sadhna }) => {
-  console.log(sadhna);
+  // console.log(sadhna);
   const streak = useMemo(() => {
     if (!sadhna || sadhna.length === 0) return 0;
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -16,6 +16,17 @@ const login = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      console.log("redirecting")
+      // Optionally verify token with backend
+      window.location.href = "https://sadhna-tracker-app-frontend.vercel.app";
+      // window.location.href="http://localhost:5173"; // or replace with your actual home route
+    }
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
