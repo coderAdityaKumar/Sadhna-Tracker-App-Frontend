@@ -3,7 +3,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import {
   FiX,
-  FiCheck,
   FiClock,
   FiBook,
   FiBookOpen,
@@ -82,7 +81,7 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
       toast.error(
         error.response?.data?.message || "Failed to submit sadhana report"
       );
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -112,15 +111,14 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
       {/* Form Content */}
       <div className="p-6 overflow-y-auto max-h-[70vh]">
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Core Practices */}
           <div className="space-y-4">
             <h3 className="font-medium text-lg text-purple-600 dark:text-purple-400 border-b pb-2">
               Core Practices
             </h3>
 
             {/* Mangala Arti */}
-            <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:items-center md:justify-between">
-              <label className="flex items-center cursor-pointer">
+            <div className="flex flex-col space-y-2">
+              <label className="flex items-center cursor-pointer text-amber-500">
                 <div className="relative mr-3">
                   <input
                     type="checkbox"
@@ -144,43 +142,42 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
                     }`}
                   ></div>
                 </div>
-                <span className="flex text-amber-500 items-center">
-                  <FiSunrise className="mr-2 text-amber-500" />
-                  Mangala Arti
-                </span>
+                <FiSunrise className="mr-2" />
+                Mangala Arti
               </label>
 
               {formData.attendedMangalaAarti && (
-                <div className="flex text-amber-500 items-center space-x-2">
+                <div className="flex flex-col space-y-1 text-amber-500">
+                  <label htmlFor="lateMinutes" className="text-sm font-medium">
+                    Minutes Late
+                  </label>
                   <input
                     type="number"
+                    id="lateMinutes"
                     name="lateMinutes"
                     value={formData.lateMinutes}
                     onChange={handleChange}
-                    placeholder="Minutes late"
-                    className="w-20 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="e.g. 5"
+                    className="w-24 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
-                  <label className="cursor-pointer">Minutes Late</label>
                 </div>
               )}
             </div>
 
-            {/* Japa Meditation */}
-            <div className="flex items-center space-x-4 ">
-              <div className="flex-1">
-                <label className="flex items-center mb-1 text-purple-500">
-                  <GiPrayerBeads className="mr-2 text-purple-400" />
-                  Japa Rounds
-                </label>
-                <input
-                  type="number"
-                  name="chantingRounds"
-                  value={formData.chantingRounds}
-                  onChange={handleChange}
-                  placeholder="16"
-                  className="text-white w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                />
-              </div>
+            {/* Japa */}
+            <div>
+              <label className="flex items-center mb-1 text-purple-500">
+                <GiPrayerBeads className="mr-2 text-purple-400" />
+                Japa Rounds
+              </label>
+              <input
+                type="number"
+                name="chantingRounds"
+                value={formData.chantingRounds}
+                onChange={handleChange}
+                placeholder="e.g. 16"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              />
             </div>
 
             {/* Book Reading */}
@@ -195,7 +192,7 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
                 value={formData.bookName}
                 onChange={handleChange}
                 placeholder="Book name"
-                className="text-white w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-2"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               {formData.bookName.trim() && (
                 <input
@@ -204,7 +201,7 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
                   value={formData.readingMinutes}
                   onChange={handleChange}
                   placeholder="Reading minutes"
-                  className="text-white w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               )}
             </div>
@@ -212,7 +209,7 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
             {/* Study Hours */}
             <div>
               <label className="flex items-center mb-1 text-green-500">
-                <FiBook className="mr-2 " />
+                <FiBook className="mr-2" />
                 Study Hours
               </label>
               <input
@@ -221,12 +218,12 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
                 value={formData.studyHours}
                 onChange={handleChange}
                 placeholder="Hours"
-                className="text-white w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
           </div>
 
-          {/* Form Actions */}
+          {/* Buttons */}
           <div className="flex items-center justify-between space-x-3 pt-4">
             <button
               type="button"
@@ -236,46 +233,43 @@ const SadhanaForm = ({ onClose, selectedDate }) => {
               Cancel
             </button>
             <button
-            type="submit"
-            disabled={loading}
-            className={` flex-1 justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white 
-    ${
-      loading
-        ? "bg-purple-400 cursor-not-allowed"
-        : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-    }
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 group`}
-          >
-            {loading ? (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8z"
-                />
-              </svg>
-            ) : (
-              <>
+              type="submit"
+              disabled={loading}
+              className={`flex-1 justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white 
+                ${
+                  loading
+                    ? "bg-purple-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                }
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 group`}
+            >
+              {loading ? (
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
+                </svg>
+              ) : (
                 <span className="group-hover:scale-105 transition-transform">
-                  Sign In
+                  Submit
                 </span>
-                
-              </>
-            )}
-          </button>
+              )}
+            </button>
           </div>
         </form>
       </div>
