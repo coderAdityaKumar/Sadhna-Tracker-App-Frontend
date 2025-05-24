@@ -118,7 +118,7 @@ const EkadashiLiveScore = () => {
         </div>
 
         {/* Admin Controls */}
-        {userRole === "admin" && (
+        {userRole === "superadmin" && (
           <div className="bg-red-50 rounded-2xl shadow-xl p-6 mb-8 border border-red-200">
             <h2 className="text-xl font-semibold text-red-800 mb-4">
               Admin Controls

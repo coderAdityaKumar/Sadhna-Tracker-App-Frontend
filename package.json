@@ -39,5 +39,13 @@
   "description": "A React-based frontend application for tracking spiritual practices (Sadhana) of students.",
   "main": "eslint.config.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderAdityaKumar/Sadhna-Tracker-App-Frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/coderAdityaKumar/Sadhna-Tracker-App-Frontend/issues"
+  },
+  "homepage": "https://github.com/coderAdityaKumar/Sadhna-Tracker-App-Frontend#readme"
 }

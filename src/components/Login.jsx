@@ -95,6 +95,7 @@ const login = () => {
           onSubmit={handleSubmit}
           className="bg-white rounded-2xl shadow-lg overflow-hidden p-8 space-y-6 border border-purple-100 relative"
         >
+          {/* upper border */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400"></div>
 
           {/* Email */}
