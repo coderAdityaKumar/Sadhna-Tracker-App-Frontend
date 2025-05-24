@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { APP_VERSION } from './config';
+import { Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Signup1 from './components/Signup';
 import Login from "./components/Login";
 import Home from "./components/Home";
@@ -15,22 +14,34 @@ import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import toast, { Toaster } from 'react-hot-toast';
 
+// Define your current app version here
+const APP_VERSION = '1.0.0'; // update this string each time you deploy
+
 function App() {
   const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const token = localStorage.getItem("jwt");
 
   useEffect(() => {
     const storedVersion = localStorage.getItem("appVersion");
-    if (storedVersion !== APP_VERSION) {
+
+    // Show popup if version changed and user is NOT on login or signup pages
+    if (
+      storedVersion !== APP_VERSION &&
+      location.pathname !== "/login" &&
+      location.pathname !== "/signup"
+    ) {
       setShowUpdatePopup(true);
     }
-  }, []);
+  }, [location.pathname]);
 
   const handleUpdateConfirm = () => {
-    localStorage.removeItem("jwt");
-    localStorage.setItem("appVersion", APP_VERSION);
-    navigate("/login");
+    localStorage.removeItem("jwt");           // clear token so user has to login again
+    localStorage.setItem("appVersion", APP_VERSION); // update stored version
+    setShowUpdatePopup(false);
+    navigate("/login");                        // redirect to login
+    toast.success("Please login again to continue.");
   };
 
   return (
@@ -51,7 +62,7 @@ function App() {
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
       </Routes>
 
-      {/* Version Update Popup */}
+      {/* Update Popup Modal */}
       {showUpdatePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
